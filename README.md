@@ -56,6 +56,24 @@ API Documentation is at \`http://localhost:3000/api-docs\`
 
 ## Architecture
 
+```mermaid
+graph TB
+    Client[Client Apps] --> API[API Gateway / Express]
+    API --> Auth[Auth Service]
+    API --> Wallet[Wallet Service]
+    API --> Transaction[Transaction Service]
+    API --> Payment[Payment Service]
+    API --> Notification[Notification Service]
+    API --> Admin[Admin Service]
+    Auth --> DB[(PostgreSQL)]
+    Wallet --> DB
+    Transaction --> DB
+    Payment --> DB
+    Auth --> Cache[(Redis)]
+    Wallet --> Cache
+    Notification --> Queue[Bull Queue / Redis]
+```
+
 - **Controllers**: Handle HTTP request/response.
 - **Services**: Contain core business logic and transaction management (using Sequelize Transactions and row locks).
 - **Models**: Sequelize definitions with strict validations and optimistic locking (\`version\`).
